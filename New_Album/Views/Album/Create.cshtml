@@ -1,0 +1,25 @@
+﻿@model New_Album.Models.Album
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1 class="mb-4">Create New Album</h1>
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create" method="post" enctype="multipart/form-data" >
+
+            @Html.EditorFor(model => model, "AlbumEdit")
+
+            <div class="form-group mt-4 text-center">
+                <input type="submit" name="actionType" value="Create" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Back</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @Html.Partial("_ValidationScriptsPartial")
+}

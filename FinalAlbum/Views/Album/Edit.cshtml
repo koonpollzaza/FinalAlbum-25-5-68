@@ -1,0 +1,22 @@
+﻿@model Album
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h3>Edit Album</h3>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data" class="p-4 border rounded shadow-sm bg-light">
+            
+            @Html.EditorFor(model => model, "AlbumEdit")
+           
+
+                <div class="form-group mt-4 text-center">
+                    <input type="submit" value="Edit" class="btn btn-primary" />
+                    <a asp-action="Index" class="btn btn-secondary">Back</a>
+                </div>
+        </form>
+    </div>
+</div>

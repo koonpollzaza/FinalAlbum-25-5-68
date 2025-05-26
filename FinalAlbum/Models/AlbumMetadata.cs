@@ -45,7 +45,9 @@ namespace FinalAlbum.Models
             {
                 if (!string.IsNullOrEmpty(s.Name))
                 {
-                    s.Create(dbContext, this.Id); // Create SongMetadata
+                    s.IsDelete = false;
+                    s.CreateBy = "pon";
+                    s.CreateDate = datenow;
                 }
             }
             dbContext.Albums.Add(this);

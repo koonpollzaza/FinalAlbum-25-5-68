@@ -3,16 +3,43 @@
 @{
     ViewData["Title"] = "Edit";
 }
-
+<script>
+    function DeleteThisRoll(e){
+    e.value = true
+    $("#RemoveId").val('Edit')
+    $("#myform").submit();
+    }
+</script>
 <h3>Edit Album</h3>
 <hr />
 <div class="row">
     <div class="col-md-6">
-        <form asp-action="Edit" method="post" enctype="multipart/form-data" class="p-4 border rounded shadow-sm bg-light">
-            
-            @Html.EditorFor(model => model, "AlbumEdit")
-           
+        <form asp-action="Edit" method="post" enctype="multipart/form-data" id="myform" name="myform">
+            @Html.AntiForgeryToken()
 
+            @{
+                string RemoveId = "";
+
+            }
+
+            @Html.HiddenFor(model => RemoveId)
+
+            <!-- Album Fields -->
+            @Html.EditorFor(model => model, "Album")
+            <button type="submit" name="actionType" value="AddSong" class="btn btn-secondary mb-3">Add Song</button>
+
+            <!-- Songs Table -->
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Song Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @Html.EditorFor(m => m.Songs)
+                </tbody>
+            </table>
                 <div class="form-group mt-4 text-center">
                     <input type="submit" value="Edit" class="btn btn-primary" />
                     <a asp-action="Index" class="btn btn-secondary">Back</a>

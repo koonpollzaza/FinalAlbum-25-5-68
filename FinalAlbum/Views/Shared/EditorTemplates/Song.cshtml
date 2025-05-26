@@ -4,12 +4,22 @@
 @Html.HiddenFor(m => m.CreateDate)
 @Html.HiddenFor(m => m.UpdateBy)
 @Html.HiddenFor(m => m.UpdateDate)
+
+@if(Model.IsDelete != true)
+{
     <tr>
         <td>
             @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            @Html.HiddenFor(m => m.IsDelete) <!-- ต้องอยู่ข้างในด้วย -->
             <span asp-validation-for="Name" class="text-danger"></span>
         </td>
         <td class="text-center">
-            <button type="submit" class="btn btn-danger" name="actionDelete" value="DeleteSong">Delete</button>
+            <button type="button" class="btn btn-danger" onclick="DeleteThisRoll(@Html.IdFor(model => model.IsDelete))">Delete</button>
         </td>
     </tr>
+}
+else
+{
+    @Html.HiddenFor(m => m.Name)
+    @Html.HiddenFor(m => m.IsDelete)
+}

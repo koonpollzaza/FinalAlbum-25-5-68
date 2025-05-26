@@ -15,9 +15,6 @@ namespace New_Album.Controllers
         {
             _context = context;
         }
-
-
-
         public IActionResult Index(string seachString)
         {
             List<Album> album = new Album().GetAll(_context, seachString);
@@ -28,21 +25,33 @@ namespace New_Album.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            Album album = new Album();
-            album.Songs = new List<Song>(); // เริ่มต้นไม่มีเพลง
+            Album album = new Album
+            {
+                Songs = new List<Song> { new Song() } // ใส่เปล่าก็ได้ เพื่อให้ EditorFor แสดง
+            };
+
             return View(album);
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Album album, string actionType, IFormFile Ifile, string? actionDelete)
+        public IActionResult Create(Album album, string actionType, IFormFile Ifile, string? actionDelete, string? RemoveId)
         {
+            album.Songs ??= new List<Song>();
 
             if (actionType == "AddSong")
             {
                 album.Songs.Add(new Song());
+                ModelState.Clear();
                 return View(album);
             }
+
+
+            if (!string.IsNullOrEmpty(RemoveId))
+            {
+                ModelState.Clear();
+                return View(album);
+            }
+
 
             if (ModelState.IsValid)
             {
@@ -55,9 +64,6 @@ namespace New_Album.Controllers
 
             return View(album);
         }
-
-
-
 
         [HttpGet]
         public IActionResult Edit(int? id)
@@ -82,7 +88,7 @@ namespace New_Album.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(Album album, string? actionType, string? OldCoverPhotoPath, string? actionDelete)
+        public IActionResult Edit(Album album, string? actionType, string? OldCoverPhotoPath, string? actionDelete, string? RemoveId)
         {
 
             if (actionType == "AddSong")
@@ -95,10 +101,14 @@ namespace New_Album.Controllers
                 return View(album);
             }
 
+            if (!string.IsNullOrEmpty(RemoveId))
+            {
+                ModelState.Clear();
+                return View(album);
+            }
+
             if (actionDelete == "DeleteSong")
             {
-                Song son = new Song();
-                son.IsDelete = true;
                 return View(album);
             }
 
@@ -112,9 +122,6 @@ namespace New_Album.Controllers
             }
             return View(album);
         }
-
-
-
 
         public IActionResult Delete(int? id)
         {

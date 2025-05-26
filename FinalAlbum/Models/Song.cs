@@ -13,7 +13,6 @@ public partial class Song
     public int Id { get; set; }
 
     public int AlbumId { get; set; }
-
     [Required]
     public string Name { get; set; }
 
@@ -28,7 +27,7 @@ public partial class Song
     [Column(TypeName = "datetime")]
     public DateTime? UpdateDate { get; set; }
 
-    public bool? IsDelete { get; set; }
+    public bool IsDelete { get; set; }
 
     [ForeignKey("AlbumId")]
     [InverseProperty("Songs")]
